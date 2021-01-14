@@ -5,6 +5,7 @@
 		"build": "parcel build src/index.html"
 	},
 	"dependencies": {
+		"query-string": "^6.13.8",
 		"react": ">= 16.8.0",
 		"react-dom": ">= 16.8.0",
 		"styled-components": "^5.2.1"

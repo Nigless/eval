@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Generator from './generator';
 
 const Root = styled.div({
 	margin: 'auto',
@@ -21,7 +22,9 @@ export default function App() {
 	return (
 		<Root>
 			<Heading>Eval</Heading>
-			<Body></Body>
+			<Body>
+				<Generator />
+			</Body>
 		</Root>
 	);
 }
