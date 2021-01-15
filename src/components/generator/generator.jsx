@@ -2,6 +2,17 @@ import { stringify } from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { compress } from 'shrink-string';
 import styled from 'styled-components';
+import Label from './label';
+
+const Root = styled.div({
+	border: 'solid 2px #aaa',
+	borderRadius: 2,
+	padding: 15,
+	background: '#fff',
+	'&>*+*': {
+		marginTop: 10,
+	},
+});
 
 const TextField = styled.textarea({
 	display: 'block',
@@ -56,27 +67,25 @@ export default function Generator() {
 	};
 
 	return (
-		<>
-			<label>
+		<Root>
+			<Label>
 				Put your js code here:
 				<TextField
 					defaultValue={'alert("Hello World!")'}
 					onChange={textFieldHandler.bind(this)}
 				/>
-			</label>
-			<label>
+			</Label>
+			<Label>
 				<input type="checkbox" onChange={checkCompressHandler.bind(this)} />
 				Compress
-			</label>
-			<br />
-			<label>
-				Result:
+			</Label>
+			<Label as="div" name="Result:">
 				{state.code !== '' ? (
 					<Link href={state.url}>{state.url}</Link>
 				) : (
 					<div>¯\_(ツ)_/¯</div>
 				)}
-			</label>
-		</>
+			</Label>
+		</Root>
 	);
 }
