@@ -4,7 +4,7 @@ import Generator from './generator/generator';
 
 const Root = styled.div({
 	margin: 'auto',
-	width: 500,
+	maxWidth: 500,
 });
 
 const Heading = styled.h1({
