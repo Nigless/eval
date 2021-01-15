@@ -22,6 +22,8 @@ if (hash) {
 	const Styles = createGlobalStyle({
 		body: {
 			background: '#ddd',
+			fontFamily: 'roboto',
+			lineHeight: 1.5,
 		},
 	});
 	const mountNode = document.getElementById('app');
