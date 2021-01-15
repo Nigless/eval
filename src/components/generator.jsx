@@ -19,7 +19,10 @@ export default function Generator() {
 		<>
 			<label>
 				Put your js code here:
-				<TextField onChange={TextFieldHandler.bind(this)}>{code}</TextField>
+				<TextField
+					defaultValue={code}
+					onChange={TextFieldHandler.bind(this)}
+				></TextField>
 			</label>
 			<label>
 				Link:
