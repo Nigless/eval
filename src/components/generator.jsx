@@ -11,6 +11,7 @@ const TextField = styled.textarea({
 
 const Link = styled.a({
 	display: 'block',
+	wordWrap: 'break-word',
 });
 
 export default function Generator() {
@@ -26,7 +27,11 @@ export default function Generator() {
 	);
 
 	const textFieldHandler = async (event) => {
-		setState({ ...state, url: await generateUrl(event.target.value) });
+		setState({
+			...state,
+			url: await generateUrl(event.target.value, state.compress),
+			code: event.target.value,
+		});
 	};
 
 	const checkCompressHandler = async (event) => {
@@ -38,6 +43,7 @@ export default function Generator() {
 	};
 
 	const generateUrl = async (code, compressed = false) => {
+		if (code === '') return '';
 		let url = code;
 		if (compressed) {
 			url = await compress(url);
@@ -65,7 +71,11 @@ export default function Generator() {
 			<br />
 			<label>
 				Result:
-				<Link href={state.url}>{state.url}</Link>
+				{state.code !== '' ? (
+					<Link href={state.url}>{state.url}</Link>
+				) : (
+					<div>¯\_(ツ)_/¯</div>
+				)}
 			</label>
 		</>
 	);
