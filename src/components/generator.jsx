@@ -23,7 +23,7 @@ export default function Generator() {
 			</label>
 			<label>
 				Link:
-				<div>{window.location.hostname + '/#' + stringify({ code })}</div>
+				<div>{window.location.host + '/#' + stringify({ code })}</div>
 			</label>
 		</>
 	);
