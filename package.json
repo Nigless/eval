@@ -9,6 +9,7 @@
 		"query-string": "^6.13.8",
 		"react": ">= 16.8.0",
 		"react-dom": ">= 16.8.0",
+		"shrink-string": "^3.0.9",
 		"styled-components": "^5.2.1"
 	},
 	"devDependencies": {
