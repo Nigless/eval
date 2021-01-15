@@ -1,5 +1,6 @@
 import { stringify } from 'query-string';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { compress } from 'shrink-string';
 import styled from 'styled-components';
 
 const TextField = styled.textarea({
@@ -8,11 +9,44 @@ const TextField = styled.textarea({
 	fontFamily: 'monospace',
 });
 
-export default function Generator() {
-	const [code, setCode] = useState('alert("Hello World!")');
+const Link = styled.a({
+	display: 'block',
+});
 
-	const TextFieldHandler = (event) => {
-		setCode(event.target.value);
+export default function Generator() {
+	const [state, setState] = useState({
+		compress: false,
+		code: 'alert("Hello World!")',
+		url: '',
+	});
+
+	useEffect(
+		async () => setState({ ...state, url: await generateUrl(state.code) }),
+		[]
+	);
+
+	const textFieldHandler = async (event) => {
+		setState({ ...state, url: await generateUrl(event.target.value) });
+	};
+
+	const checkCompressHandler = async (event) => {
+		setState({
+			...state,
+			compress: event.target.checked,
+			url: await generateUrl(state.code, event.target.checked),
+		});
+	};
+
+	const generateUrl = async (code, compressed = false) => {
+		let url = code;
+		if (compressed) {
+			url = await compress(url);
+		}
+		return (
+			window.location.host +
+			'/#' +
+			stringify({ c: compressed || undefined, js: url })
+		);
 	};
 
 	return (
@@ -20,13 +54,18 @@ export default function Generator() {
 			<label>
 				Put your js code here:
 				<TextField
-					defaultValue={code}
-					onChange={TextFieldHandler.bind(this)}
-				></TextField>
+					defaultValue={'alert("Hello World!")'}
+					onChange={textFieldHandler.bind(this)}
+				/>
 			</label>
 			<label>
-				Link:
-				<div>{window.location.host + '/#' + stringify({ code })}</div>
+				<input type="checkbox" onChange={checkCompressHandler.bind(this)} />
+				Compress
+			</label>
+			<br />
+			<label>
+				Result:
+				<Link href={state.url}>{state.url}</Link>
 			</label>
 		</>
 	);
