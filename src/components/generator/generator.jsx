@@ -68,8 +68,7 @@ export default function Generator() {
 
 	return (
 		<Root>
-			<Label>
-				Put your js code here:
+			<Label name="Put your js code here:">
 				<TextField
 					defaultValue={'alert("Hello World!")'}
 					onChange={textFieldHandler.bind(this)}
