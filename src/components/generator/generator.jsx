@@ -1,5 +1,6 @@
 import { stringify } from 'query-string';
 import React, { useEffect, useState } from 'react';
+import { QRCode } from 'react-qr-svg';
 import { compress } from 'shrink-string';
 import styled from 'styled-components';
 import Label from './label';
@@ -23,6 +24,10 @@ const TextField = styled.textarea({
 const Link = styled.a({
 	display: 'block',
 	wordWrap: 'break-word',
+});
+
+const QR = styled(QRCode)({
+	display: 'block',
 });
 
 export default function Generator() {
@@ -53,6 +58,13 @@ export default function Generator() {
 		});
 	};
 
+	const checkQRHandler = async (event) => {
+		setState({
+			...state,
+			generateQR: event.target.checked,
+		});
+	};
+
 	const generateUrl = async (code, compressed = false) => {
 		if (code === '') return '';
 		let url = code;
@@ -74,10 +86,19 @@ export default function Generator() {
 					onChange={textFieldHandler.bind(this)}
 				/>
 			</Label>
-			<Label>
-				<input type="checkbox" onChange={checkCompressHandler.bind(this)} />
-				Compress
-			</Label>
+			<div>
+				<Label>
+					<input
+						type="checkbox"
+						onChange={checkCompressHandler.bind(this)}
+					/>
+					Compress
+				</Label>
+				<Label>
+					<input type="checkbox" onChange={checkQRHandler.bind(this)} />
+					Generate QR code
+				</Label>
+			</div>
 			<Label as="div" name="Result:">
 				{state.code !== '' ? (
 					<Link href={state.url}>{state.url}</Link>
@@ -85,6 +106,11 @@ export default function Generator() {
 					<div>¯\_(ツ)_/¯</div>
 				)}
 			</Label>
+			{state.generateQR ? (
+				state.code ? (
+					<QR value={state.url} />
+				) : undefined
+			) : undefined}
 		</Root>
 	);
 }
